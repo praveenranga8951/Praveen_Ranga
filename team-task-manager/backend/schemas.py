@@ -69,3 +69,8 @@ class DashboardStats(BaseModel):
     tasks_by_status: dict
     tasks_per_user: dict
     overdue_tasks: int
+
+class GlobalDashboardStats(BaseModel):
+    due_soon_tasks: int
+    overdue_tasks: int
+

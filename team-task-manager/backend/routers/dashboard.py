@@ -9,6 +9,37 @@ router = APIRouter(
     tags=["dashboard"]
 )
 
+@router.get("/global", response_model=schemas.GlobalDashboardStats)
+def get_global_stats(db: Session = Depends(database.get_db), current_user: models.User = Depends(auth.get_current_user)):
+    # Get all projects user is a member of
+    user_project_ids = db.query(models.ProjectMember.project_id).filter(
+        models.ProjectMember.user_id == current_user.id
+    ).all()
+    project_ids = [p[0] for p in user_project_ids]
+
+    if not project_ids:
+        return {"due_soon_tasks": 0, "overdue_tasks": 0}
+
+    now = datetime.utcnow()
+    # due soon is within next 7 days, and not overdue, and not done
+    due_soon = db.query(models.Task).filter(
+        models.Task.project_id.in_(project_ids),
+        models.Task.due_date >= now,
+        models.Task.status != "Done"
+    ).count() # simplistic "due soon"
+
+    overdue = db.query(models.Task).filter(
+        models.Task.project_id.in_(project_ids),
+        models.Task.due_date < now,
+        models.Task.status != "Done"
+    ).count()
+
+    return {
+        "due_soon_tasks": due_soon,
+        "overdue_tasks": overdue
+    }
+
+
 @router.get("/stats/{project_id}", response_model=schemas.DashboardStats)
 def get_dashboard_stats(project_id: int, db: Session = Depends(database.get_db), current_user: models.User = Depends(auth.get_current_user)):
     # Check membership

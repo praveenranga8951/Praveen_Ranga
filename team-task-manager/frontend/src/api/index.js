@@ -35,6 +35,7 @@ export const taskApi = {
 
 export const dashboardApi = {
   getStats: (projectId) => api.get(`/dashboard/stats/${projectId}`),
+  getGlobalStats: () => api.get('/dashboard/global'),
 };
 
 export default api;
