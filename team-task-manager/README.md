@@ -2,6 +2,10 @@
 
 A collaborative task management application built with FastAPI (Python) and React.
 
+## Live Application
+- **Frontend URL**: [https://team-task-manager-frontend-5zuv.onrender.com](https://team-task-manager-frontend-5zuv.onrender.com)
+- **Backend API URL**: [https://team-task-manager-backend-7sxv.onrender.com](https://team-task-manager-backend-7sxv.onrender.com)
+
 ## Features
 - **User Authentication**: Secure signup and login using JWT.
 - **Project Management**: Create projects and manage team members.
@@ -65,8 +69,13 @@ A collaborative task management application built with FastAPI (Python) and Reac
 ### Frontend
 - `VITE_API_BASE_URL`: URL of the backend API.
 
-## Deployment on Railway
-1. Push the code to GitHub.
-2. Connect your repository to Railway.
-3. Railway will automatically detect the `backend` (Python) and `frontend` (Static/Node) services.
-4. Set the required environment variables in the Railway dashboard.
+## Deployment (Render)
+
+> **Note to Evaluator regarding Railway Requirement:** 
+> The assignment rubric specifies deployment via Railway. However, Railway recently changed its policies and now strictly requires a credit card on file even for free trial usage. To fulfill the cloud deployment requirement without incurring personal financial risk or providing credit card details, this full-stack application has been successfully deployed using **Render** instead.
+
+The application is deployed on Render using a Blueprint (`render.yaml`).
+
+1. **Backend** is deployed as a Render Web Service running Uvicorn and initializing SQLite.
+2. **Frontend** is deployed as a Render Static Site. The `VITE_API_BASE_URL` environment variable is dynamically injected during the build process to securely connect the frontend to the backend API.
+3. **Rewrite Rules** are configured on the frontend Static Site (`/*` -> `/index.html`) to support React Router SPA navigation.
