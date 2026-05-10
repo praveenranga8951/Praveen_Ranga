@@ -275,7 +275,12 @@ const Dashboard = () => {
                            <span className="text-[10px] text-gray-500 truncate w-24">{member.email}</span>
                          </div>
                        </div>
-                       <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{member.role}</span>
+                       <div className="flex flex-col items-end">
+                         <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">{member.role}</span>
+                         <span className="text-[10px] bg-indigo-500/20 text-indigo-400 px-2 py-0.5 rounded-full font-medium">
+                           {selectedProjectStats?.tasks_per_user?.[member.name] || 0} tasks
+                         </span>
+                       </div>
                     </div>
                   ))}
                 </div>
